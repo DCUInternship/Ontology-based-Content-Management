@@ -168,6 +168,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onModuleLoad() {
+		radioA.setEnabled(true);
 		/*
 		 * Create file interface
 		 */
