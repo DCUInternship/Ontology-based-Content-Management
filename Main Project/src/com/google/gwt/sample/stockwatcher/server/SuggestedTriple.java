@@ -6,8 +6,7 @@ import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.Value;
-import org.openrdf.model.URI;
-import org.openrdf.model.ValueFactory;
+import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryConnection;
 import org.openrdf.repository.RepositoryException;
@@ -19,9 +18,9 @@ public class SuggestedTriple {
 	public ArrayList<String[]> getSuggestedTriples(String in) {
 		int index = in.lastIndexOf('/') + 1;
 		String subject = in.substring(index);
+		String predicate;
 		ArrayList<String[]> st = new ArrayList<String[]>();
 		Repository myRepository = new HTTPRepository("http://localhost:8080/openrdf-sesame/", "University");
-		ValueFactory factory = myRepository.getValueFactory();
 //		URI context = factory.createURI("http://www.cngl.ie");
 		try {
 			RepositoryConnection con = myRepository.getConnection();
@@ -34,14 +33,22 @@ public class SuggestedTriple {
 				index = name.lastIndexOf('/') + 1;
 				name = name.substring(index);
 				if (subject.equals(name)) {
+					if(statement.getPredicate() == RDF.TYPE){
+						predicate = "RDF.type";
+						System.out.println("Found RDF.TYPE:" + predicate);
+					}
+					else{
+						predicate = statement.getPredicate().stringValue();
+					}
 					Value object = statement.getObject();
 					if (object instanceof Literal) {
-						String[] triple = { name, statement.getPredicate().stringValue() + "*", object.stringValue() };
+						String[] triple = { name, predicate + "*", object.stringValue() };
 						st.add(triple);
 					} else {
-						String[] triple = { name, statement.getPredicate().stringValue(), statement.getObject().stringValue() };
+						String[] triple = { name, predicate, object.stringValue() };
 						st.add(triple);
 					}
+					System.out.println( name +" "+predicate +" "+ object.stringValue() );
 				}
 			}
 		} catch (RepositoryException e) {

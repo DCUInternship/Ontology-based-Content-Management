@@ -2,20 +2,15 @@ package com.google.gwt.sample.stockwatcher.server;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
-
 import org.openrdf.OpenRDFException;
-import org.openrdf.model.URI;
 import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryConnection;
 import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.http.HTTPRepository;
 import org.openrdf.rio.RDFFormat;
 import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyID;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 public class OntologyToSesame {

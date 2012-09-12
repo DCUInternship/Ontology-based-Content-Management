@@ -17,7 +17,6 @@ public interface GreetingService extends RemoteService {
 	String[] sendToTripleStore(String[] triple) throws IOException;
 	String getBaseURI();
 	String filePath(); // returns filepath of uploaded file by user
-	String loadOntologyFromWeb(String input) throws IOException;
 	String getOntName();
 	String downloadRepository(String input) throws IOException;
 	ArrayList<String[]> suggestedTriples(String input);

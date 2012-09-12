@@ -16,13 +16,10 @@ import org.openrdf.repository.RepositoryResult;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
@@ -66,7 +63,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 @SuppressWarnings("serial")
 public class GreetingServiceImpl extends RemoteServiceServlet implements GreetingService {
 	/*
-	 * TODO internet upload
+	 *
 	 */
 	private File file;
 	private FileItem file_item;
@@ -108,44 +105,9 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 		baseURI = Ont_upload.getBaseURI(save_file.getFilePath()) + "#";
 
 	}
-
-	public String loadOntologyFromWeb(String input) throws IOException {
-		// File src = new File(input);
-		// File dest = File.createTempFile("UploadFromWeb", ".rdf");
-		// IRI iri = IRI.create(input);
-		// System.out.println("Ontology from web name: " +
-		// dest.getAbsolutePath());
-		// OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-		// ArrayList<String> newlist = new ArrayList<String>();
-		// try {
-		// OWLOntology ontology = manager.loadOntologyFromOntologyDocument(iri);
-		// if (type == 1)
-		// getClasses(ontology, newList); // get classes into an arrayList
-		// if (type == 2) {
-		// getProperty_Resources(ontology, newList); // get classes into an
-		// // arrayList
-		// }
-		// if (type == 3)
-		// getProperty_Literals(ontology, newList); // get classes into an
-		// // arrayList
-		// manager.removeOntology(ontology);
-		// } catch (OWLOntologyCreationException e) {
-		// e.printStackTrace();
-		// }
-		// InputStream in = new FileInputStream(src);
-		// OutputStream out = new FileOutputStream(dest);
-		// byte[] buf = new byte[1024];
-		// int len;
-		// while ((len = in.read(buf)) > 0) {
-		// out.write(buf, 0, len);
-		// }
-		// in.close();
-		// out.close();
-		// save_file.setFilePath(dest.getAbsolutePath());
-		// src.delete();
-		return null;
-	}
-
+	/*
+	 * Loading ontology from the web
+	 */
 	@Override
 	public ArrayList<String> ontologyComponents(ArrayList<String> list, String url, int type) {
 		IRI iri = IRI.create(url);
@@ -190,23 +152,19 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 		try {
 			OWLOntology ontology = manager.loadOntologyFromOntologyDocument(file);
 
-			// model.getNsPrefixURI(arg0)
 			if (type == 1)
 				getClasses(ontology, newList); // get classes into an arrayList
 			if (type == 2) {
-				getProperty_Resources(ontology, newList); // get classes into an
-															// arrayList
+				getProperty_Resources(ontology, newList); // get classes into an arrayList
 			}
 			if (type == 3)
-				getProperty_Literals(ontology, newList); // get classes into an
-															// arrayList
+				getProperty_Literals(ontology, newList); // get classes into an arrayList
 			manager.removeOntology(ontology);
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 		}
 
 		arrayList = newList;
-		// newList.clear()''
 		return arrayList;
 	}
 
@@ -265,15 +223,12 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 				String uri = name.getSignature().toString();
 				int indexOfhash = uri.indexOf('#', 0) + 1;
 				uri = uri.substring(indexOfhash, uri.length() - 2);
-				// System.out.println(uri); // HAVE BASE URI!!!!!
 				ontologyList.add(uri.concat("*"));
 			}
-			// System.out.println("Literal: " + name.getLocalName());
 
 		}
 		if (ontologyList.size() == 0)
 			ontologyList.add("EMPTY");
-		// System.out.println(ontologyList.size());
 		return ontologyList;
 	}
 
@@ -352,8 +307,6 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 	public String[] sendToTripleStore(String[] triple) throws IOException {
 		/*
 		 * Setup connection to sesame to upload Triple
-		 */
-		/*
 		 * direct upload
 		 */
 		boolean object;
@@ -401,19 +354,15 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 		} catch (RepositoryException e) {
 			e.printStackTrace();
 		}
-
-		System.out.println("FILE UPLOADED");
 		return triple;
 	}
 
 	public String filePath() {
 		path_file = save_file.getFilePath();
-		System.out.println("Calling to server for filepath: " + path_file);
 		return path_file;
 	}
 
 	public String getBaseURI() {
-		System.out.println("Sending back baseURI: " + baseURI);
 		return baseURI;
 	}
 

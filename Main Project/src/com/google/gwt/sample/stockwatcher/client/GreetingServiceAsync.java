@@ -12,7 +12,6 @@ public interface GreetingServiceAsync {
 			throws IllegalArgumentException;
 	void sendToTripleStore(String[] triples, AsyncCallback<String[]> callback);
 	void filePath(AsyncCallback<String> callback);
-	void loadOntologyFromWeb(String input, AsyncCallback<String> callback);
 	void getBaseURI(AsyncCallback<String> callback);
 	void suggestedTriples(String input, AsyncCallback<ArrayList<String[]> > callback);
 	void getOntName(AsyncCallback<String> callback);
