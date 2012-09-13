@@ -38,7 +38,6 @@ public class OntologyBasedContentManagement implements EntryPoint {
 	private RootPanel root2Panel = RootPanel.get("newList");
 	private Anchor new_page = new Anchor("Ontology Tree");
 	private Anchor home_page = new Anchor("Home");
-	private Anchor to_content = new Anchor("To Content");
 	private Anchor download_repository = new Anchor("Download Repository");
 	private String export_fp = "";
 	private boolean repository_downloaded = false;
@@ -93,7 +92,6 @@ public class OntologyBasedContentManagement implements EntryPoint {
 	private TextBox ontology_from_disk = new TextBox();
 	private TextBox subjectQuery = new TextBox();
 	private TextBox contextQuery = new TextBox();
-	private TextBox link = new TextBox();
 	private TextBox ontology_from_internet = new TextBox(); // enter URL of
 															// ontology
 	private TextBox user_enter_subject = new TextBox(); // user enter word not
@@ -121,8 +119,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 	private Label lblObjectProperties = new Label("Object Properties");
 	private Label lblDataProperties = new Label("Data Properties");
 
-	private ListBox ontology_Classes, property_Resources, property_Literals,
-			ontologies;
+	private ListBox ontology_Classes, property_Resources, property_Literals, ontologies;
 	private Frame frame; // uses HTTPRequest to get website
 	private String frameWidth, frameHeight;
 	private String subject = "";
@@ -138,8 +135,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 	private ArrayList<String[]> insert_ToTable = new ArrayList<String[]>(); // suggested
 																			// triples
 
-	private final GreetingServiceAsync greetingService = GWT
-			.create(GreetingService.class);
+	private final GreetingServiceAsync greetingService = GWT.create(GreetingService.class);
 	private static Logger logger = Logger.getLogger("");
 	/*
 	 * file instances
@@ -151,8 +147,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 	private Label statusLabel = new Label();
 	private static String filepathofexport;
 	private ArrayList<Ontology> ontology = new ArrayList<Ontology>();
-	private int left = (int) (Window.getClientWidth() / 1.5),
-			top = (int) Window.getClientHeight() / 4;
+	private int left = (int) (Window.getClientWidth() / 1.5), top = (int) Window.getClientHeight() / 4;
 	private String link_to_content_page;
 	private int rowIndex = 0;
 	private final Label lblOntologies = new Label("Ontologies");
@@ -180,8 +175,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 		ClickHandler load_handler = new ClickHandler() {
 			@Override
 			public void onClick(final ClickEvent event) {
-				ontName = fileUpload.getFilename().substring(
-						fileUpload.getFilename().lastIndexOf('\\') + 1);
+				ontName = fileUpload.getFilename().substring(fileUpload.getFilename().lastIndexOf('\\') + 1);
 				form.submit();
 			}
 		};
@@ -210,16 +204,14 @@ public class OntologyBasedContentManagement implements EntryPoint {
 		tripleTable.addStyleName("tripleTable");
 		row = tripleTable.getRowCount();
 		frameWidth = String.valueOf(Window.getClientWidth() / 3.3) + "px";
-		ontology_from_disk
-				.setText("/Users/markhender/ontologies/pizzas/pizza.rdf");
+		ontology_from_disk.setText("/Users/markhender/ontologies/pizzas/pizza.rdf");
 		ontology_from_disk.setWidth("340px");
 		frame = new Frame();
 		frame.setUrl(url);
 		frameWidth = String.valueOf(Window.getClientWidth() - 20) + "px"; // works
 																			// cross
 																			// browsers
-		frameHeight = String
-				.valueOf(String.valueOf(Window.getClientHeight() / 1.3) + "px");
+		frameHeight = String.valueOf(String.valueOf(Window.getClientHeight() / 1.3) + "px");
 		frame.setSize(frameWidth, "487px");
 		frame.setVisible(true);
 
@@ -247,11 +239,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 						// addLitObject(ft.getText(count, 2));
 						// else
 						addSuggestedObject(ft.getText(count, 2));
-						logger.log(
-								Level.SEVERE,
-								"" + ft.getText(count, 0) + ","
-										+ ft.getText(count, 0) + ","
-										+ ft.getText(count, 2));
+						logger.log(Level.SEVERE, "" + ft.getText(count, 0) + "," + ft.getText(count, 0) + "," + ft.getText(count, 2));
 					}
 					count++;
 				}
@@ -275,10 +263,8 @@ public class OntologyBasedContentManagement implements EntryPoint {
 					content.selectAll();
 			}
 		});
-		bottomOfScreen.setCellVerticalAlignment(tripleTable,
-				HasVerticalAlignment.ALIGN_MIDDLE);
-		bottomOfScreen.setCellHorizontalAlignment(tripleTable,
-				HasHorizontalAlignment.ALIGN_CENTER);
+		bottomOfScreen.setCellVerticalAlignment(tripleTable, HasVerticalAlignment.ALIGN_MIDDLE);
+		bottomOfScreen.setCellHorizontalAlignment(tripleTable, HasHorizontalAlignment.ALIGN_CENTER);
 		searchPanel.add(content); // content search box
 		searchPanel.add(search); // trigger content search button
 		search.setHeight("37px");
@@ -322,8 +308,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 		final ClickHandler download_handler = new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				greetingService.downloadRepository(entercontext.getText(),
-						new downloadRepository());
+				greetingService.downloadRepository(entercontext.getText(), new downloadRepository());
 				if (repository_downloaded)
 					loadPageTwo(export_fp);
 				repository_downloaded = true;
@@ -367,21 +352,14 @@ public class OntologyBasedContentManagement implements EntryPoint {
 		mainPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		bottomOfScreen.setSize("1250px", "164px");
 		addPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
-		rootPanel.add(addPanel, 0,
-				10);
-		rootPanel.add(frame, 0,
-				addPanel.getAbsoluteTop() + addPanel.getOffsetHeight() + 20);
-		rootPanel.add(form, 295,
-				frame.getAbsoluteTop() + frame.getOffsetHeight() + 20);
-		rootPanel.add(mainPanel, 744,
-				frame.getAbsoluteTop() + frame.getOffsetHeight() + 20);
-		rootPanel.add(bottomOfScreen, 0,
-				mainPanel.getAbsoluteTop() + mainPanel.getOffsetHeight() + 100);
-		rootPanel.add(secondPanel, 296,
-				form.getAbsoluteTop() + form.getOffsetHeight());
+		rootPanel.add(addPanel, 0, 10);
+		rootPanel.add(frame, 0, addPanel.getAbsoluteTop() + addPanel.getOffsetHeight() + 20);
+		rootPanel.add(form, 295, frame.getAbsoluteTop() + frame.getOffsetHeight() + 20);
+		rootPanel.add(mainPanel, 744, frame.getAbsoluteTop() + frame.getOffsetHeight() + 20);
+		rootPanel.add(bottomOfScreen, 0, mainPanel.getAbsoluteTop() + mainPanel.getOffsetHeight() + 100);
+		rootPanel.add(secondPanel, 296, form.getAbsoluteTop() + form.getOffsetHeight());
 		VerticalPanel verticalPanel = new VerticalPanel();
-		verticalPanel
-				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+		verticalPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		bottomOfScreen.add(verticalPanel);
 		verticalPanel.setSize("1246px", "53px");
 		verticalPanel.add(new_page);
@@ -405,8 +383,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 			public void onMouseMove(MouseMoveEvent event) {
 				Label test_label = new Label();
 				test_label.setText("Enter subject value or leave blank");
-				test_label.getElement().getStyle()
-						.setPosition(Position.ABSOLUTE);
+				test_label.getElement().getStyle().setPosition(Position.ABSOLUTE);
 			}
 
 		});
@@ -537,28 +514,23 @@ public class OntologyBasedContentManagement implements EntryPoint {
 
 			@Override
 			public void onMouseMove(MouseMoveEvent event) {
-				suggestion_label.getElement().getStyle()
-						.setTop(event.getClientX(), Unit.PX);
-				suggestion_label.getElement().getStyle()
-						.setLeft(event.getClientY(), Unit.PX);
+				suggestion_label.getElement().getStyle().setTop(event.getClientX(), Unit.PX);
+				suggestion_label.getElement().getStyle().setLeft(event.getClientY(), Unit.PX);
 			}
 
 		});
 		tripleTable.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				com.google.gwt.user.client.ui.HTMLTable.Cell cell = tripleTable
-						.getCellForEvent(event);
+				com.google.gwt.user.client.ui.HTMLTable.Cell cell = tripleTable.getCellForEvent(event);
 				int cellIndex = cell.getCellIndex();
 				int rowIndex = cell.getRowIndex();
 				if (cellIndex == 4 || cellIndex == 0) {
-					logger.log(Level.SEVERE,
-							"Sending: " + tripleTable.getText(rowIndex, 0));
+					logger.log(Level.SEVERE, "Sending: " + tripleTable.getText(rowIndex, 0));
 					if (cellIndex == 0) {
 
 					}
-					greetingService.suggestedTriples(
-							tripleTable.getHTML(rowIndex, 0), suggestedTriples);
+					greetingService.suggestedTriples(tripleTable.getHTML(rowIndex, 0), suggestedTriples);
 				} else if (cellIndex == 3) {
 					tripleTable.removeRow(rowIndex);
 				}
@@ -570,8 +542,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 			public void onClick(ClickEvent event) {
 				String blah = content.getText();
 				if (radioA.isChecked() || !radioB.isChecked())
-					greetingService.wordExists(blah, webBox.getText(),
-							subjectIndexOfContent);
+					greetingService.wordExists(blah, webBox.getText(), subjectIndexOfContent);
 				else {
 					printSubject();
 				}
@@ -586,8 +557,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 					if (radioA.isChecked() || !radioB.isChecked())
-						greetingService.wordExists(content.getText(),
-								webBox.getText(), subjectIndexOfContent);
+						greetingService.wordExists(content.getText(), webBox.getText(), subjectIndexOfContent);
 					else
 						printSubject();
 					content.setFocus(true);
@@ -661,11 +631,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 				populate_ClassBox(listIndex);
 				populate_PropertyBox(listIndex);
 				populate_LiteralBox(listIndex);
-				logger.log(
-						Level.SEVERE,
-						"web uri is: "
-								+ ontology.get(ontologies.getSelectedIndex())
-										.getBaseURI());
+				logger.log(Level.SEVERE, "web uri is: " + ontology.get(ontologies.getSelectedIndex()).getBaseURI());
 			}
 		});
 		lblClasses.setStyleName("Label");
@@ -692,8 +658,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 			@Override
 			public void onChange(ChangeEvent event) {
 				int listIndex = ontology_Classes.getSelectedIndex();
-				String uri = ontology.get(ontologies.getSelectedIndex())
-						.getBaseURI();
+				String uri = ontology.get(ontologies.getSelectedIndex()).getBaseURI();
 				String item = uri + ontology_Classes.getItemText(listIndex);
 				addObject(item);
 			}
@@ -705,15 +670,11 @@ public class OntologyBasedContentManagement implements EntryPoint {
 			public void onChange(ChangeEvent event) {
 				// TODO Auto-generated method stub
 				int listIndex = property_Resources.getSelectedIndex();
-				logger.log(Level.SEVERE,
-						property_Resources.getItemText(listIndex));
-				if (!(property_Resources.getItemText(listIndex)
-						.equals("RDF.type"))) {
+				logger.log(Level.SEVERE, property_Resources.getItemText(listIndex));
+				if (!(property_Resources.getItemText(listIndex).equals("RDF.type"))) {
 					logger.log(Level.SEVERE, "not rdf.type");
-					String uri = ontology.get(ontologies.getSelectedIndex())
-							.getBaseURI();
-					String item = uri
-							+ property_Resources.getItemText(listIndex);
+					String uri = ontology.get(ontologies.getSelectedIndex()).getBaseURI();
+					String item = uri + property_Resources.getItemText(listIndex);
 					addPredicate(item);
 				} else {
 					logger.log(Level.SEVERE, "rdf.type");
@@ -732,31 +693,29 @@ public class OntologyBasedContentManagement implements EntryPoint {
 					Window.alert("This list is empty!");
 				else {
 					int listIndex = property_Literals.getSelectedIndex();
-					String uri = ontology.get(ontologies.getSelectedIndex())
-							.getBaseURI();
-					String item = uri
-							+ property_Literals.getItemText(listIndex);
+					String uri = ontology.get(ontologies.getSelectedIndex()).getBaseURI();
+					String item = uri + property_Literals.getItemText(listIndex);
 					addPredicate(item);
 				}
 			}
 		});
 		addPanel.setSize("380px", "32px");
 		addPanel.add(webBox);
-		
-				webBox.setText(url);
-				webBox.setWidth("340px");
-				
-						// listen for keyboard events in the textbox
-						webBox.addKeyUpHandler(new KeyUpHandler() {
-							@Override
-							public void onKeyUp(KeyUpEvent event) {
-								if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-									frame.setUrl(webBox.getText());
-									content.setFocus(true);
-									content.selectAll();
-								}
-							}
-						});
+
+		webBox.setText(url);
+		webBox.setWidth("340px");
+
+		// listen for keyboard events in the textbox
+		webBox.addKeyUpHandler(new KeyUpHandler() {
+			@Override
+			public void onKeyUp(KeyUpEvent event) {
+				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+					frame.setUrl(webBox.getText());
+					content.setFocus(true);
+					content.selectAll();
+				}
+			}
+		});
 		addPanel.add(webSend);
 		webSend.setHeight("32px");
 
@@ -792,12 +751,9 @@ public class OntologyBasedContentManagement implements EntryPoint {
 				path_of_uploaded_file = result;
 				ontology.get(ontology.size() - 1).setFilePath(result);
 				Window.alert("Pass");
-				greetingService.greetServer(list, path_of_uploaded_file, 1,
-						ontology_class);
-				greetingService.greetServer(list, path_of_uploaded_file, 2,
-						property_resource);
-				greetingService.greetServer(list, path_of_uploaded_file, 3,
-						property_literal);
+				greetingService.greetServer(list, path_of_uploaded_file, 1, ontology_class);
+				greetingService.greetServer(list, path_of_uploaded_file, 2, property_resource);
+				greetingService.greetServer(list, path_of_uploaded_file, 3, property_literal);
 
 				ontologies.addItem(ontology.get(ontology.size() - 1).getName());
 
@@ -813,8 +769,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 				form.reset();
 				greetingService.filePath(pathfile);
 				greetingService.getBaseURI(geturi);
-				ontology.add(new Ontology(ontName, path_of_uploaded_file,
-						baseURI, classes, properties, literals));
+				ontology.add(new Ontology(ontName, path_of_uploaded_file, baseURI, classes, properties, literals));
 				if (ontology.size() == 1) {
 					// populate_listBoxes();
 				}
@@ -862,15 +817,10 @@ public class OntologyBasedContentManagement implements EntryPoint {
 			@Override
 			public void onClick(ClickEvent event) {
 				netOntName = ont_netName.getText();
-				ontology.add(new Ontology(ont_netName.getText(),
-						ontology_from_internet.getText(), baseURI, classes,
-						properties, literals));
-				greetingService.ontologyComponents(list,
-						ontology_from_internet.getText(), 1, ontologyComponents);
-				greetingService.ontologyComponents(list,
-						ontology_from_internet.getText(), 2, ontologyComponents);
-				greetingService.ontologyComponents(list,
-						ontology_from_internet.getText(), 3, ontologyComponents);
+				ontology.add(new Ontology(ont_netName.getText(), ontology_from_internet.getText(), baseURI, classes, properties, literals));
+				greetingService.ontologyComponents(list, ontology_from_internet.getText(), 1, ontologyComponents);
+				greetingService.ontologyComponents(list, ontology_from_internet.getText(), 2, ontologyComponents);
+				greetingService.ontologyComponents(list, ontology_from_internet.getText(), 3, ontologyComponents);
 
 				ontologies.addItem(ontology.get(ontology.size() - 1).getName());
 				// logger.log(Level.SEVERE, "web uri is: " +
@@ -882,12 +832,11 @@ public class OntologyBasedContentManagement implements EntryPoint {
 		 * page 2
 		 */
 		tree_grid.add(browseTree);
+		
 		instance_link.add(instance_grid);
 		instance_link.addStyleName("treeAndGrid");
 		instance_grid.addStyleName("treeAndGrid");
-
-		instance_link.add(link);
-		instance_link.add(to_content);
+		// instance_grid.addClickHandler(new ClickHandler())
 
 		tree_grid.add(instance_link);
 		tree_grid.add(queryPanel);
@@ -895,38 +844,25 @@ public class OntologyBasedContentManagement implements EntryPoint {
 		page2Panel.add(entercontext);
 		page2Panel.add(tree_grid);
 		page2Panel.addStyleName("treeAndGrid");
+		instance_grid.setHeight(page2Panel.getOffsetHeight() + "px");
 		root2Panel.setVisible(false);
-		
-		final ClickHandler link_to_page = new ClickHandler() {
 
-			@Override
-			public void onClick(ClickEvent event) {
-				logger.log(Level.SEVERE, "URL: " + link_to_content_page);
-				Window.open(link_to_content_page, "Content Page",
-						"menubar=yes,location=yes,resizable=yes,scrollbars=yes,status=yes");
-			}
-
-		};
 		final ClickHandler getWebsite = new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				com.google.gwt.user.client.ui.HTMLTable.Cell cell = instance_grid
-						.getCellForEvent(event);
+				com.google.gwt.user.client.ui.HTMLTable.Cell cell = instance_grid.getCellForEvent(event);
 
-				instance_grid.getRowFormatter().removeStyleName(rowIndex,
-						"selectCell");
+				instance_grid.getRowFormatter().removeStyleName(rowIndex, "selectCell");
 				int cellIndex = cell.getCellIndex();
 				rowIndex = cell.getRowIndex();
 				instance_grid.removeStyleName("selectCell");
 				if (cellIndex == 0) {
-					instance_grid.getRowFormatter().addStyleName(rowIndex,
-							"selectCell");
+					instance_grid.getRowFormatter().addStyleName(rowIndex, "selectCell");
 					// instance_grid.getColumnFormatter().addStyleName(cellIndex,
 					// "selectCell");
 					link_to_content_page = instance_grid.getText(rowIndex, 0);
-					link_to_content_page = link_to_content_page.substring(0,
-							link_to_content_page.lastIndexOf('/'));
+					link_to_content_page = link_to_content_page.substring(0, link_to_content_page.lastIndexOf('/'));
 					logger.log(Level.SEVERE, "URL: " + link_to_content_page);
 				}
 
@@ -941,34 +877,18 @@ public class OntologyBasedContentManagement implements EntryPoint {
 				}
 				instance_grid.removeAllRows();
 				greetingService.getQueryInstances(
-						subjectQuery.getText().equals("") ? "NONE" : webBox
-								.getText().concat(
-										"/"
-												+ subjectQuery.getText()
-														.replace(' ', '_')),
-						property_Resources.getItemText(
-								property_Resources.getSelectedIndex()).equals(
-								"NONE") ? "NONE" : ontology
-								.get(ontologies.getSelectedIndex())
-								.getBaseURI()
-								.concat(property_Resources
-										.getItemText(property_Resources
-												.getSelectedIndex())),
+						subjectQuery.getText().equals("") ? "NONE" : webBox.getText().concat("/" + subjectQuery.getText().replace(' ', '_')),
+						property_Resources.getItemText(property_Resources.getSelectedIndex()).equals("NONE") ? "NONE" : ontology
+								.get(ontologies.getSelectedIndex()).getBaseURI()
+								.concat(property_Resources.getItemText(property_Resources.getSelectedIndex())),
 
-						ontology_Classes.getItemText(
-								ontology_Classes.getSelectedIndex()).equals(
-								"NONE") ? "NONE" : ontology
-								.get(ontologies.getSelectedIndex())
-								.getBaseURI()
-								.concat(ontology_Classes
-										.getItemText(ontology_Classes
-												.getSelectedIndex())),
-						entercontext.getText().equals("") ? "NONE"
-								: entercontext.getText(), new queryInstances());
+						ontology_Classes.getItemText(ontology_Classes.getSelectedIndex()).equals("NONE") ? "NONE" : ontology
+								.get(ontologies.getSelectedIndex()).getBaseURI()
+								.concat(ontology_Classes.getItemText(ontology_Classes.getSelectedIndex())),
+						entercontext.getText().equals("") ? "NONE" : entercontext.getText(), new queryInstances());
 			}
 
 		};
-		to_content.addClickHandler(link_to_page);
 		instance_grid.addClickHandler(getWebsite);
 		browseTree.addStyleName("treeAndGrid");
 		queryButton.addClickHandler(page2_queryHandler);
@@ -1009,8 +929,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 
 					@Override
 					public void onClick(ClickEvent click) {
-						com.google.gwt.user.client.ui.HTMLTable.Cell cell = tripleTable
-								.getCellForEvent(event);
+						com.google.gwt.user.client.ui.HTMLTable.Cell cell = tripleTable.getCellForEvent(event);
 						int cellIndex = cell.getCellIndex();
 						int rowIndex = cell.getRowIndex();
 						logger.log(Level.SEVERE, "cell:" + cellIndex);
@@ -1026,6 +945,18 @@ public class OntologyBasedContentManagement implements EntryPoint {
 		});
 
 	}
+	/*
+	 * Open up new web page from instance
+	 */
+	protected final ClickHandler link_to_page = new ClickHandler() {
+
+		@Override
+		public void onClick(ClickEvent event) {
+			logger.log(Level.SEVERE, "URL: " + link_to_content_page);
+			Window.open(link_to_content_page, "Content Page", "menubar=yes,location=yes,resizable=yes,scrollbars=yes,status=yes");
+		}
+
+	};
 
 	protected void populate_ClassBox(int index) {
 		ontology_Classes.clear();
@@ -1068,16 +999,14 @@ public class OntologyBasedContentManagement implements EntryPoint {
 	@SuppressWarnings("deprecation")
 	protected void printSubject() {
 
-		subject = webBox.getText().concat(
-				"/" + content.getText().replace(' ', '_'));
+		subject = webBox.getText().concat("/" + content.getText().replace(' ', '_'));
 
 		logger.log(Level.SEVERE, "rowcount:" + row);
 		content.getText().replace(' ', '_');
 		if (radioA.isChecked() || !radioB.isChecked()) {
 			row = tripleTable.getRowCount();
-			if ((tripleTable.getText(row - 1, 2).isEmpty() || (!tripleTable
-					.getText(row - 1, 2).isEmpty() && tripleTable.getText(
-					row - 1, 0).isEmpty()))) {
+			if ((tripleTable.getText(row - 1, 2).isEmpty() || (!tripleTable.getText(row - 1, 2).isEmpty() && tripleTable.getText(row - 1, 0)
+					.isEmpty()))) {
 				row--;
 			} else if (tripleTable.getText(row - 1, 0).isEmpty())
 				row--;
@@ -1113,8 +1042,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 
 					@Override
 					public void onClick(ClickEvent click) {
-						com.google.gwt.user.client.ui.HTMLTable.Cell cell = tripleTable
-								.getCellForEvent(event);
+						com.google.gwt.user.client.ui.HTMLTable.Cell cell = tripleTable.getCellForEvent(event);
 						int cellIndex = cell.getCellIndex();
 						int rowIndex = cell.getRowIndex();
 						logger.log(Level.SEVERE, "cell:" + cellIndex);
@@ -1147,9 +1075,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 		} else {
 			p = tripleTable.getText(row, 1);
 			p = p.substring(p.indexOf('#') + 1, p.length());
-			if (ontology.get(ontologies.getSelectedIndex()).getProperties()
-					.contains(p)
-					|| p.equals("RDF.type")) {
+			if (ontology.get(ontologies.getSelectedIndex()).getProperties().contains(p) || p.equals("RDF.type")) {
 				tripleTable.setText(row, 2, item);
 			} else {
 				if (item.startsWith("http://")) {
@@ -1170,11 +1096,8 @@ public class OntologyBasedContentManagement implements EntryPoint {
 			o = tripleTable.getText(row, 2);
 			o = o.substring(o.indexOf('#') + 1, o.length());
 
-			logger.log(Level.SEVERE, "This should be a resource predicate: "
-					+ ontology.get(ontologies.getSelectedIndex()).getClasses()
-							.contains(o));
-			if (ontology.get(ontologies.getSelectedIndex()).getClasses()
-					.contains(o)) {
+			logger.log(Level.SEVERE, "This should be a resource predicate: " + ontology.get(ontologies.getSelectedIndex()).getClasses().contains(o));
+			if (ontology.get(ontologies.getSelectedIndex()).getClasses().contains(o)) {
 				if (item.endsWith("*")) {
 					Window.alert("Must select Object-Property. Object is a resource");
 				} else {
@@ -1207,8 +1130,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 			contents[0] = (tripleTable.getText(rowcount - 1, 0));
 			contents[1] = (tripleTable.getText(rowcount - 1, 1));
 			contents[2] = (tripleTable.getText(rowcount - 1, 2));
-			message += "\nSubject: " + contents[0] + "\nPredicate: "
-					+ contents[1] + "\nObject: " + contents[2];
+			message += "\nSubject: " + contents[0] + "\nPredicate: " + contents[1] + "\nObject: " + contents[2];
 			logger.log(Level.SEVERE, contents[1]);
 			tripleTable.removeRow(rowcount - 1);
 
@@ -1270,8 +1192,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 				@SuppressWarnings("deprecation")
 				@Override
 				public void onClick(ClickEvent event) {
-					boolean checked = ((CheckBox) event.getSource())
-							.isChecked();
+					boolean checked = ((CheckBox) event.getSource()).isChecked();
 				}
 
 			});
@@ -1282,12 +1203,10 @@ public class OntologyBasedContentManagement implements EntryPoint {
 				public void onClick(ClickEvent event) {
 					// int count = 0;
 					if (count < 1) {
-						com.google.gwt.user.client.ui.HTMLTable.Cell cell = ft
-								.getCellForEvent(event);
+						com.google.gwt.user.client.ui.HTMLTable.Cell cell = ft.getCellForEvent(event);
 						int cellIndex = cell.getCellIndex();
 						int rowIndex = cell.getRowIndex();
-						logger.log(Level.SEVERE, "cell:" + cellIndex + "~ Row:"
-								+ (rowIndex));
+						logger.log(Level.SEVERE, "cell:" + cellIndex + "~ Row:" + (rowIndex));
 						if (cellIndex == 3 && cb.getValue()) {
 						}
 					}
@@ -1325,8 +1244,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 		root2Panel.setVisible(true);
 
 		buildTree(export_path);
-		greetingService.getChildren(export_path, "Thing", new TreeRootCallback(
-				browseTree));
+		greetingService.getChildren(export_path, "Thing", new TreeRootCallback(browseTree));
 		// Gets instances for selected tree item!
 		browseTree.addTreeListener(new TreeListener() {
 
@@ -1334,8 +1252,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 			public void onTreeItemSelected(TreeItem item) {
 				logger.log(Level.SEVERE, "Item = " + item.getText());
 				instance_grid.removeAllRows();
-				greetingService.getInstances(export_path, item.getText(),
-						entercontext.getText(), new TreeItemInstances());
+				greetingService.getInstances(export_path, item.getText(), entercontext.getText(), new TreeItemInstances());
 			}
 
 			@Override
@@ -1363,8 +1280,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 			public void onOpen(OpenEvent<TreeItem> event) {
 				if (needsLoading(event.getTarget())) {
 
-					greetingService.getChildren(ont, event.getTarget()
-							.getText(), new TreeItemCallback(event.getTarget()));
+					greetingService.getChildren(ont, event.getTarget().getText(), new TreeItemCallback(event.getTarget()));
 				}
 			}
 		});
@@ -1372,12 +1288,10 @@ public class OntologyBasedContentManagement implements EntryPoint {
 	}
 
 	protected boolean needsLoading(TreeItem item) {
-		return item.getChildCount() == 1
-				&& LOADING_ITEMS.equals(item.getChild(0).getText());
+		return item.getChildCount() == 1 && LOADING_ITEMS.equals(item.getChild(0).getText());
 	}
 
-	public final class queryInstances implements
-			AsyncCallback<ArrayList<String[]>> {
+	public final class queryInstances implements AsyncCallback<ArrayList<String[]>> {
 		public void onFailure(Throwable caught) {
 
 		}
@@ -1389,8 +1303,15 @@ public class OntologyBasedContentManagement implements EntryPoint {
 			Iterator<String[]> ii = result.iterator();
 			while (ii.hasNext()) {
 				String[] temp = ii.next();
+				Anchor c = new Anchor(temp[0]);
 				for (int i = 0; i < temp.length; i++) {
-					instance_grid.setText(grid_row, i, temp[i]);
+					if (i == 0) {
+						logger.log(Level.SEVERE, "Setting anchor widget to table");
+						instance_grid.setWidget(grid_row, i, c);
+					} else {
+						logger.log(Level.SEVERE, "Not: " + temp[i]);
+						instance_grid.setText(grid_row, i, temp[i]);
+					}
 				}
 				grid_row++;
 			}
@@ -1416,8 +1337,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 		}
 	}
 
-	public static final class TreeRootCallback implements
-			AsyncCallback<ArrayList<String>> {
+	public static final class TreeRootCallback implements AsyncCallback<ArrayList<String>> {
 
 		private Tree browseTree;
 
@@ -1443,8 +1363,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 
 	}
 
-	public static final class TreeItemCallback implements
-			AsyncCallback<ArrayList<String>> {
+	public static final class TreeItemCallback implements AsyncCallback<ArrayList<String>> {
 
 		private TreeItem treeItem;
 
@@ -1468,8 +1387,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 		}
 	}
 
-	public final class TreeItemInstances implements
-			AsyncCallback<ArrayList<String[]>> {
+	public final class TreeItemInstances implements AsyncCallback<ArrayList<String[]>> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -1485,8 +1403,16 @@ public class OntologyBasedContentManagement implements EntryPoint {
 			Iterator<String[]> ii = result.iterator();
 			while (ii.hasNext()) {
 				String[] temp = ii.next();
+				Anchor c = new Anchor(temp[0]);
+				c.addClickHandler(link_to_page);
 				for (int i = 0; i < temp.length; i++) {
-					instance_grid.setText(grid_row, i, temp[i]);
+					if (i == 0) {
+						logger.log(Level.SEVERE, "Setting anchor widget to table");
+						instance_grid.setWidget(grid_row, i, c);
+					} else {
+						logger.log(Level.SEVERE, "Not: " + temp[i]);
+						instance_grid.setText(grid_row, i, temp[i]);
+					}
 				}
 				grid_row++;
 			}
