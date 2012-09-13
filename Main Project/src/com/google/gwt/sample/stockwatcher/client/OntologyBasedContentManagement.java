@@ -367,10 +367,10 @@ public class OntologyBasedContentManagement implements EntryPoint {
 		mainPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		bottomOfScreen.setSize("1250px", "164px");
 		addPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
-		rootPanel.add(addPanel, rootPanel.getAbsoluteLeft(),
-				rootPanel.getAbsoluteTop());
+		rootPanel.add(addPanel, 0,
+				10);
 		rootPanel.add(frame, 0,
-				addPanel.getAbsoluteTop() + addPanel.getOffsetHeight() + 10);
+				addPanel.getAbsoluteTop() + addPanel.getOffsetHeight() + 20);
 		rootPanel.add(form, 295,
 				frame.getAbsoluteTop() + frame.getOffsetHeight() + 20);
 		rootPanel.add(mainPanel, 744,
@@ -740,13 +740,25 @@ public class OntologyBasedContentManagement implements EntryPoint {
 				}
 			}
 		});
-
-		webBox.setText(url);
-		webBox.setWidth("340px");
-		addPanel.setSize("380px", "52px");
+		addPanel.setSize("380px", "32px");
 		addPanel.add(webBox);
+		
+				webBox.setText(url);
+				webBox.setWidth("340px");
+				
+						// listen for keyboard events in the textbox
+						webBox.addKeyUpHandler(new KeyUpHandler() {
+							@Override
+							public void onKeyUp(KeyUpEvent event) {
+								if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+									frame.setUrl(webBox.getText());
+									content.setFocus(true);
+									content.selectAll();
+								}
+							}
+						});
 		addPanel.add(webSend);
-		webSend.setHeight("34px");
+		webSend.setHeight("32px");
 
 		webSend.setText("GO");
 
@@ -758,18 +770,6 @@ public class OntologyBasedContentManagement implements EntryPoint {
 				logger.log(Level.SEVERE, frame.getUrl());
 				content.setFocus(true);
 				content.selectAll();
-			}
-		});
-
-		// listen for keyboard events in the textbox
-		webBox.addKeyUpHandler(new KeyUpHandler() {
-			@Override
-			public void onKeyUp(KeyUpEvent event) {
-				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					frame.setUrl(webBox.getText());
-					content.setFocus(true);
-					content.selectAll();
-				}
 			}
 		});
 
@@ -896,8 +896,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 		page2Panel.add(tree_grid);
 		page2Panel.addStyleName("treeAndGrid");
 		root2Panel.setVisible(false);
-		root2Panel.add(home_page);
-		root2Panel.add(page2Panel);
+		
 		final ClickHandler link_to_page = new ClickHandler() {
 
 			@Override
@@ -1347,7 +1346,8 @@ public class OntologyBasedContentManagement implements EntryPoint {
 		});
 
 		instance_grid.setText(0, 0, "Row 1:Col 1");
-
+		root2Panel.add(home_page);
+		root2Panel.add(page2Panel);
 		int left2, top2;
 		left2 = Window.getClientWidth() / 5;
 		top2 = Window.getClientHeight() / 5;
@@ -1533,7 +1533,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 				&& iframe.contentWindow.document !== undefined) {
 			return iframe.contentWindow.document;
 		} else {
-			return "Arse";
+			return "failed to get new URL";
 		}
 	}-*/;
 
