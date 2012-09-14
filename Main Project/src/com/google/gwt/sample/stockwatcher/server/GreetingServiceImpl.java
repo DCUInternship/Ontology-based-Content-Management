@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -123,6 +124,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 			if (type == 1){
 				getClasses(ontology, newlist); // get classes into an arrayList
 				newlist.add("ThisIsClassSection");
+				Ont_upload.uploadViaURL(url);
 			}
 			if (type == 2) {
 				getProperty_Resources(ontology, newlist); // get classes into an
@@ -135,6 +137,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 			}
 			manager.removeOntology(ontology);
 		} catch (OWLOntologyCreationException e) {
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
 		list = newlist;
@@ -249,8 +253,6 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 			if (check_FullString(searchWord, html) == true) {
 				start_and_end_index[0] = getIndex();
 				start_and_end_index[1] = start_and_end_index[0] + (searchWord.length() - 1);
-				System.out.println("\tFINAL index: " + getIndex());
-				System.out.println(searchWord + ": was found on selected page!");
 				ses.subjectOnRepository(webPage + "/", searchWord, start_and_end_index);
 				return start_and_end_index;
 			} else {
@@ -317,12 +319,12 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 		URI pre;
 		URI rObject = null;
 		Literal lObject = null;
-		URI context;
+		String cont = triple[0].substring(0, triple[0].lastIndexOf('/'));
+		URI context = fa.createURI(cont);
 		if (triple[1].equals("RDF.type")) {
 			System.out.println("RDF.TYPE");
 			pre = RDF.TYPE;
 			rObject = fa.createURI(triple[2]);
-			context = fa.createURI(rObject.getNamespace());
 			System.out.println("Namespace: " + rObject.getNamespace());
 			object = true;
 		} else if (triple[1].endsWith("*")) {
@@ -331,13 +333,11 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 			triple[1] = triple[1].substring(0, triple[1].length() - 1);
 			pre = fa.createURI(triple[1]);
 			System.out.println(triple[1]);
-			context = fa.createURI(pre.getNamespace());
 			object = false;
 		} else {
 			System.out.println("Resource");
 			rObject = fa.createURI(triple[2]);
 			pre = fa.createURI(triple[1]);
-			context = fa.createURI(rObject.getNamespace());
 			object = true;
 		}
 		try {

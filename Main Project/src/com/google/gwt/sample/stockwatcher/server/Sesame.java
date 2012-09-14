@@ -27,7 +27,7 @@ public class Sesame {
 			if (statements.asList().isEmpty()) {
 				System.out.println("ADD " + subject.toString() + " to Repo");
 				con.add(subject, org.openrdf.model.vocabulary.RDFS.LABEL, factory.createURI(webpage + indexes[0] + "_" + indexes[1]),
-						factory.createURI("http://www.cngl.ie"));
+						factory.createURI(webpage));
 			} else
 				System.out.println("DONT! ADD " + content + " to Repo");
 			

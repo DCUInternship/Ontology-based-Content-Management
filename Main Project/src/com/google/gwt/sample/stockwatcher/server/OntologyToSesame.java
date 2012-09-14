@@ -2,6 +2,9 @@ package com.google.gwt.sample.stockwatcher.server;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import org.openrdf.OpenRDFException;
 import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryConnection;
@@ -45,6 +48,31 @@ public class OntologyToSesame {
 		System.out.println("here, unfortunately");
 
 	}
+	public void uploadViaURL(String webpage) throws MalformedURLException{
+		String sesame_server = "http://localhost:8080/openrdf-sesame";
+		String database_name = "University";
+		Repository myRepo = new HTTPRepository(sesame_server, database_name);
+		try{
+			myRepo.initialize();
+			RepositoryConnection con = myRepo.getConnection();
+			try{
+				URL url = new URL(webpage);
+				con.add(url, url.toString(), RDFFormat.RDFXML);
+				
+			}
+			catch(RepositoryException re){
+				re.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			finally{
+				con.close();
+			}
+		}
+		catch(OpenRDFException e){
+			e.printStackTrace();
+		}
+	}
 
 	// Store baseURI of uploaded ontology to sesame
 	public String getBaseURI(String input) {
@@ -52,18 +80,7 @@ public class OntologyToSesame {
 		File temp = new File(input);
 		try {
 			OWLOntology model = manager.loadOntologyFromOntologyDocument(temp);
-
-//			Iterator<OWLClass> iter = model.getClassesInSignature().iterator();
 			this.baseURI = model.getOntologyID().getOntologyIRI().toString();
-			
-//			if (iter.hasNext()) {
-//				OWLClass owlClass = iter.next();
-//				this.baseURI = owlClass.getSignature().toString();
-//				this.baseURI = this.baseURI.substring(2,
-//						this.baseURI.indexOf('#', 0) + 1);
-//				System.out.println(this.baseURI.indexOf('#', 0));
-//
-//			}
 			manager.removeOntology(model);
 			temp.deleteOnExit();
 			return this.baseURI;
@@ -73,37 +90,4 @@ public class OntologyToSesame {
 		}
 		
 	}
-
-	// Repository myRepo = new HTTPRepository(sesame_server, database_name);
-	// try {
-	// myRepo.initialize();
-	// System.out.println("Connection: " + myRepo.isInitialized());
-	// // File file = new
-	// File("/Users/markhender/ontologies/pizzas/pizzas.owl");
-	// RepositoryConnection con = myRepo.getConnection();
-	// URI uri ;
-	// try {
-	// System.out.println("\there2");
-	// con.add(file, "file:///" + file.getAbsolutePath(),
-	// RDFFormat.forFileName(file.getPath()));
-	// // con.getNamespace(model.getOntologyID().toString());
-	// OWLOntologyID temp = model.getOntologyID();
-	//
-	// // IRI possible = temp.getOntologyIRI();
-	// // System.out.println(possible);
-	// // System.out.println(possible + "\n");
-	// } catch (RepositoryException re) {
-	// re.printStackTrace();
-	// } finally {
-	// con.close();
-	// }
-	// } catch (OpenRDFException e) {
-	//
-	// // handle exception
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// System.out.println("IO NOT Connected\n\n");
-	// // handle io exception
-	// }logyToSesame {
-
 }

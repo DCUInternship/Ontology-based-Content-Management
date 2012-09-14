@@ -832,7 +832,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 		 * page 2
 		 */
 		tree_grid.add(browseTree);
-		
+
 		instance_link.add(instance_grid);
 		instance_link.addStyleName("treeAndGrid");
 		instance_grid.addStyleName("treeAndGrid");
@@ -889,7 +889,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 			}
 
 		};
-		instance_grid.addClickHandler(getWebsite);
+	//	instance_grid.addClickHandler(getWebsite);
 		browseTree.addStyleName("treeAndGrid");
 		queryButton.addClickHandler(page2_queryHandler);
 	}
@@ -931,7 +931,6 @@ public class OntologyBasedContentManagement implements EntryPoint {
 					public void onClick(ClickEvent click) {
 						com.google.gwt.user.client.ui.HTMLTable.Cell cell = tripleTable.getCellForEvent(event);
 						int cellIndex = cell.getCellIndex();
-						int rowIndex = cell.getRowIndex();
 						logger.log(Level.SEVERE, "cell:" + cellIndex);
 						// if (cellIndex == 3) {
 						// tripleTable.removeRow(rowIndex);
@@ -945,6 +944,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 		});
 
 	}
+
 	/*
 	 * Open up new web page from instance
 	 */
@@ -953,6 +953,17 @@ public class OntologyBasedContentManagement implements EntryPoint {
 		@Override
 		public void onClick(ClickEvent event) {
 			logger.log(Level.SEVERE, "URL: " + link_to_content_page);
+			com.google.gwt.user.client.ui.HTMLTable.Cell cell = instance_grid.getCellForEvent(event);
+			instance_grid.getRowFormatter().removeStyleName(rowIndex, "selectCell");
+			int cellIndex = cell.getCellIndex();
+			rowIndex = cell.getRowIndex();
+			instance_grid.removeStyleName("selectCell");
+			if (cellIndex == 0) {
+				instance_grid.getRowFormatter().addStyleName(rowIndex, "selectCell");
+				link_to_content_page = instance_grid.getText(rowIndex, 0);
+				link_to_content_page = link_to_content_page.substring(0, link_to_content_page.lastIndexOf('/'));
+				logger.log(Level.SEVERE, "URL: " + link_to_content_page);
+			}
 			Window.open(link_to_content_page, "Content Page", "menubar=yes,location=yes,resizable=yes,scrollbars=yes,status=yes");
 		}
 
@@ -1308,6 +1319,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 					if (i == 0) {
 						logger.log(Level.SEVERE, "Setting anchor widget to table");
 						instance_grid.setWidget(grid_row, i, c);
+						c.addClickHandler(link_to_page);
 					} else {
 						logger.log(Level.SEVERE, "Not: " + temp[i]);
 						instance_grid.setText(grid_row, i, temp[i]);
