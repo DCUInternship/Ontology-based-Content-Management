@@ -15,11 +15,15 @@ import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
-
+/**
+ * 
+ * @author markhender
+ *	Uploads ontology to sesame repository. 
+ */
 public class OntologyToSesame {
 	private String baseURI = "";
 
-	// Upload to Sesame server
+	// Upload to Sesame server if the user uploaded ontology from file system
 	public void upload(String file_path) {
 		File file = new File(file_path);
 		String sesame_server = "http://localhost:8080/openrdf-sesame";
@@ -29,13 +33,10 @@ public class OntologyToSesame {
 			myRepo.initialize();
 			RepositoryConnection con = myRepo.getConnection();
 			try {
-				con.add(file, "file:///" + file.getAbsolutePath(),
-						RDFFormat.forFileName(file.getPath()));
-
+				con.add(file, "file:///" + file.getAbsolutePath(), RDFFormat.forFileName(file.getPath()));
 			} catch (RepositoryException re) {
 
 			}
-
 			finally {
 				con.close();
 			}
@@ -45,9 +46,9 @@ public class OntologyToSesame {
 			e.printStackTrace();
 			System.out.println("IO NOT Connected\n\n");
 		}
-		System.out.println("here, unfortunately");
 
 	}
+	// Upload to Sesame if the user uploaded ontology from a web address
 	public void uploadViaURL(String webpage) throws MalformedURLException{
 		String sesame_server = "http://localhost:8080/openrdf-sesame";
 		String database_name = "University";
@@ -74,7 +75,7 @@ public class OntologyToSesame {
 		}
 	}
 
-	// Store baseURI of uploaded ontology to sesame
+	// Store baseURI of uploaded ontology on sesame
 	public String getBaseURI(String input) {
 		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 		File temp = new File(input);

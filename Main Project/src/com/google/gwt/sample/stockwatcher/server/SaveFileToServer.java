@@ -6,7 +6,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload.FileItem;
-
+/**
+ * Uploaded file from users file system is saved to a temporary location on the server side
+ * 
+ * Can handle multiple files at a time
+ * 
+ * @author markhender
+ *
+ */
 public class SaveFileToServer {
 
 	private String file_path = "";

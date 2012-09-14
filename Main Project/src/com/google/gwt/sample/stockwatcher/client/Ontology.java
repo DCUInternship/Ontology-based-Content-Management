@@ -1,7 +1,10 @@
 package com.google.gwt.sample.stockwatcher.client;
 
 import java.util.ArrayList;
-
+/**
+ * @author markhender
+ *	Class to store all the necessary contents of an ontology
+ */
 public class Ontology {
 	private String name, file_path, baseURI;
 	private ArrayList<String> classes = new ArrayList<String>();

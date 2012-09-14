@@ -9,32 +9,34 @@ import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.RepositoryResult;
 import org.openrdf.repository.http.HTTPRepository;
 
+/**
+ * 
+ * @author markhender This class is used to check if a subject already exists in
+ *         the sesame repository
+ * 
+ *         If it does exist -> Nothing happens in this class 
+ *         If it does NOT exist: 
+ *         		- It adds a triple => the subject | RDF.label | Index of subject in the content
+ */
 public class Sesame {
 	private URI subject;
 
 	public void subjectOnRepository(String webpage, String search, Integer[] indexes) {
-		Repository myRepository = new HTTPRepository(
-				"http://localhost:8080/openrdf-sesame/", "University");
+		Repository myRepository = new HTTPRepository("http://localhost:8080/openrdf-sesame/", "University");
 		String content = webpage + search.replace(' ', '_');
 		try {
-			System.out.println("MADE IT!");
 			myRepository.initialize();
 			ValueFactory factory = myRepository.getValueFactory();
 			subject = factory.createURI(content);
 			RepositoryConnection con = myRepository.getConnection();
-			RepositoryResult<Statement> statements = con.getStatements(subject,
-					null, null, false);
+			RepositoryResult<Statement> statements = con.getStatements(subject, null, null, false);
 			if (statements.asList().isEmpty()) {
-				System.out.println("ADD " + subject.toString() + " to Repo");
 				con.add(subject, org.openrdf.model.vocabulary.RDFS.LABEL, factory.createURI(webpage + indexes[0] + "_" + indexes[1]),
 						factory.createURI(webpage));
 			} else
-				System.out.println("DONT! ADD " + content + " to Repo");
-			
 			con.close();
 			statements.close();
 		} catch (RepositoryException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

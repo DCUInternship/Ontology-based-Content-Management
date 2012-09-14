@@ -3,7 +3,6 @@ package com.google.gwt.sample.stockwatcher.client;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.IFrameElement;
@@ -264,6 +263,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 		});
 		bottomOfScreen.setCellVerticalAlignment(tripleTable, HasVerticalAlignment.ALIGN_MIDDLE);
 		bottomOfScreen.setCellHorizontalAlignment(tripleTable, HasHorizontalAlignment.ALIGN_CENTER);
+		bottomOfScreen.setWidth(frameWidth);
 		searchPanel.add(content); // content search box
 		searchPanel.add(search); // trigger content search button
 		search.setHeight("37px");
@@ -353,10 +353,10 @@ public class OntologyBasedContentManagement implements EntryPoint {
 		addPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
 		rootPanel.add(addPanel, 0, 10);
 		rootPanel.add(frame, 0, addPanel.getAbsoluteTop() + addPanel.getOffsetHeight() + 20);
-		rootPanel.add(form, 295, frame.getAbsoluteTop() + frame.getOffsetHeight() + 20);
-		rootPanel.add(mainPanel, 744, frame.getAbsoluteTop() + frame.getOffsetHeight() + 20);
+		rootPanel.add(form, 0, frame.getAbsoluteTop() + frame.getOffsetHeight() + 20);
+		rootPanel.add(secondPanel, 0, form.getAbsoluteTop() + form.getOffsetHeight());
+		rootPanel.add(mainPanel, rootPanel.getOffsetWidth() - Window.getClientWidth() /2, frame.getAbsoluteTop() + frame.getOffsetHeight() + 20);
 		rootPanel.add(bottomOfScreen, 0, mainPanel.getAbsoluteTop() + mainPanel.getOffsetHeight() + 100);
-		rootPanel.add(secondPanel, 296, form.getAbsoluteTop() + form.getOffsetHeight());
 		VerticalPanel verticalPanel = new VerticalPanel();
 		verticalPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		bottomOfScreen.add(verticalPanel);
@@ -614,7 +614,7 @@ public class OntologyBasedContentManagement implements EntryPoint {
 		mainPanel.setCellHeight(Ont_Table, "18px");
 		mainPanel.setCellWidth(Ont_Table, "152px");
 		lblOntologies.setStyleName("Label");
-
+		mainPanel.setWidth("100px");
 		Ont_Table.setWidget(0, 1, lblOntologies);
 		lblOntologies.setSize("100%", "100%");
 
